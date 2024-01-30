@@ -11,24 +11,26 @@ device = torch.device('cuda:0' if torch.cuda.is_available() else 'cpu')
 print(device)
 
 # Define transform to Normalize images (input is PIL image)
-transform = transforms.Compose([transforms.ToTensor(), transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
+transform = transforms.Compose([transforms.ToTensor(), 
+                                transforms.Resize((256, 330)),
+                                transforms.Normalize((0.5, 0.5, 0.5), (0.5, 0.5, 0.5))])
 
 batch_size = 4
 
 # Define training and test set
-trainset = torchvision.datasets.Country211(root='./data', train=True,
-                                           download=True, transform=transform)
+trainset = torchvision.datasets.Country211(root='./data', split='train',
+                                        transform=transform, download=True)
 trainloader = torch.utils.data.DataLoader(trainset, batch_size=batch_size,
                                           shuffle=True, num_workers=0)
 
-testset = torchvision.datasets.Country211(root='./data', train=False,
+testset = torchvision.datasets.Country211(root='./data', split='test',
                                           download=True, transform=transform)
-testloader = torch._utils.data.DataLoader(testset, batch_size=batch_size, 
+testloader = torch.utils.data.DataLoader(testset, batch_size=batch_size,
                                         shuffle=False, num_workers=0)
 
 # classes = ()
 
-class Net(nn.Module):
-    def __init__(self):
+# class Net(nn.Module):
+#     def __init__(self):
 
-    def forward(self, x):
+#     def forward(self, x):
